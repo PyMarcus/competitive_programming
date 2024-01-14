@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-#include <stack>
+#include <vector>
 
 using namespace std;
 
@@ -9,36 +9,39 @@ using namespace std;
 #define Z fixed << setprecision(2);
 
 void checkParenthesis(string word){
-    stack<char> s;
+    vector<char> s;
 
     for(char c: word){
         if(c == '(' || c == ')'){
-            s.push(c);
+            s.push_back(c);
         }
+    }
+
+    if(s.size()%2 != 0){
+        cout << "is incorrect" << endl;
+        return;
     }
 
     bool check = false;
     while(!s.empty()){
-        char last = s.top();
+        char last = s.back();
+        s.pop_back();
+    
 
-        s.pop();
-
-        if (s.empty()) {
-            check = false;
-            break;
-        }
-
-        char first = s.top();
-        s.pop();
-
+        char first = s.front();
+        s.erase(s.begin());
         if((int)first < (int)last){
             check = true;
         }else{
             check = false;
+            cout << "is incorrect" << endl;
             break;
         }
     }
-    cout << check << endl;
+    if(check)
+    cout << "is correct" << endl;
+    else
+    cout << "is incorrect" << endl;
 }
 
 int main(){
@@ -46,7 +49,7 @@ int main(){
     cin.tie();
     string word;
 
-    for(int i = 0; i < 2; i++){
+    for(int i = 0; i < 10000; i++){
         getline(cin, word);
         checkParenthesis(word);
     }
